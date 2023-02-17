@@ -28,7 +28,12 @@ Route.group(() => {
   Route.patch("/reset-password/:token", "AuthController.resetPassword");
 }).prefix("/api/auth");
 
-Route.get("/ok", ({ request }) => {
-  console.log(request.completeUrl(true));
-  return "ok";
-}).prefix("/api");
+Route.group(() => {
+  Route.post("/create", "ProductsController.createProduct");
+  Route.get("/all", "ProductsController.getProducts");
+  Route.get("/:id", "ProductsController.getProduct");
+  Route.patch("update/:id", "ProductsController.update");
+  Route.delete("/delete/:id", "ProductsController.deleteProduct");
+})
+  .middleware("auth:api")
+  .prefix("/api/product");
